@@ -30,11 +30,6 @@ head(training)
 head(testing)
 ```
 
-Cross-validation will be performed by spliting the training dataset into:
-
-1) A training dataset, containing 70% of the observations. The models for prediction will be built using this dataset.
-
-2) A testing dataset, containing 30% of the observations. The accuracy of our prediction models will be evaluated using this dataset.
 
 ```{r cross-validation, warning=FALSE, message=FALSE, echo=TRUE}
 # load packages
@@ -50,7 +45,7 @@ training.set = training[inTrain,]
 testing.set = training[-inTrain,]
 ```
 
-Training and testing data consist of 160 variables. The choice of specific predictors is based on removing near zero variance predictors, with the nearZeroVar function, and also variables containing many NAs.
+
 
 ```{r clean data, warning=FALSE, message=FALSE, echo=TRUE}
 # Remove near zero variance predictors
@@ -83,9 +78,6 @@ testing <- rbind(training.set[2, -58] , testing)
 testing <- testing[-1,]
 ```
 
-We will use two approaches to create a prediction model for the values of classe variable. 
-
-Firstly prediction with trees will be attempted, using the 'rpart' method and the caret package.
 
 ```{r prediction with trees, warning=FALSE, message=FALSE, echo=TRUE}
 # Prediction with Trees
@@ -104,7 +96,7 @@ pred.tree = predict(tree.fit, testing.set[,-ncol(testing.set)])
 confusionMatrix(pred.tree, testing.set$classe)
 ```
 
-Secondly a prediction model using random forest method will be created.
+
 
 ```{r random forest, warning=FALSE, message=FALSE, echo=TRUE}
 # Prediction with Random Forest
@@ -125,9 +117,6 @@ pred2 = predict(
 confusionMatrix(pred2, testing.set$classe)
 ```
 
-The accuracy of the random forest model is, as expected, much higher than the rpart model, over 0.99!
-
-Random Forest model performed better and constitutes the model of choice for predicting the 20 observations of the original pml-testing.csv dataset.
 
 ```{r pml-testing predictions, warning=FALSE, message=FALSE, echo=TRUE}
 # Get predictions for the 20 observations of the original pml-testing.csv
